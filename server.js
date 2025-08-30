@@ -69,42 +69,95 @@ app.get('/api/blockchain/status', async (req, res) => {
   }
 });
 
-// Example APY data route
+// Import DeFi API service
+const DeFiApiService = require('./services/defiApi');
+const defiService = new DeFiApiService();
+
+// Real-time APY data route
 app.get('/api/apy/protocols', async (req, res) => {
   try {
-    // Example: Fetch APY data from a protocol API
-    // You'll need to replace this with actual protocol API endpoints
-    const mockProtocols = [
-      {
-        name: 'Compound',
-        apy: '4.25',
-        tvl: '1000000',
-        protocol: 'compound'
-      },
-      {
-        name: 'Aave',
-        apy: '3.89',
-        tvl: '2500000',
-        protocol: 'aave'
-      },
-      {
-        name: 'Yearn Finance',
-        apy: '5.12',
-        tvl: '750000',
-        protocol: 'yearn'
-      }
-    ];
+    // Check cache first
+    const cachedData = defiService.getCachedData();
+    if (cachedData) {
+      console.log('Returning cached data:', cachedData.length, 'protocols');
+      return res.json({
+        success: true,
+        protocols: cachedData,
+        timestamp: new Date().toISOString(),
+        source: 'cache'
+      });
+    }
+
+    console.log('Fetching fresh data from DeFi service...');
+    // Fetch fresh data from all protocols
+    const protocols = await defiService.getAllProtocolData();
+    console.log('Received protocols from service:', protocols ? protocols.length : 'null', 'protocols');
     
     res.json({
       success: true,
-      protocols: mockProtocols,
-      timestamp: new Date().toISOString()
+      protocols: protocols || [],
+      timestamp: new Date().toISOString(),
+      source: 'live-api',
+      totalProtocols: protocols ? protocols.length : 0
     });
   } catch (error) {
     console.error('APY data error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to fetch APY data',
+      message: error.message
+    });
+  }
+});
+
+// Get specific protocol data
+app.get('/api/apy/protocol/:protocol', async (req, res) => {
+  try {
+    const { protocol } = req.params;
+    const allProtocols = await defiService.getAllProtocolData();
+    const protocolData = allProtocols.filter(p => 
+      p.protocol.toLowerCase() === protocol.toLowerCase()
+    );
+    
+    res.json({
+      success: true,
+      protocol: protocol,
+      data: protocolData,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Protocol data error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch protocol data',
+      message: error.message
+    });
+  }
+});
+
+// Get real-time contract data
+app.get('/api/contract/stats', async (req, res) => {
+  try {
+    // This would integrate with the smart contract
+    // For now, return mock data
+    const contractStats = {
+      totalTvl: '$5.24B',
+      totalUsers: 1250,
+      poolCount: 8,
+      totalDeposits: '$3.8B',
+      lastUpdate: new Date().toISOString()
+    };
+    
+    res.json({
+      success: true,
+      stats: contractStats,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Contract stats error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch contract stats',
       message: error.message
     });
   }

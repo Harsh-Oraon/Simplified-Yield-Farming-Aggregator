@@ -6,11 +6,13 @@ import { TrendingUp, Shield, ExternalLink } from "lucide-react";
 interface YieldCardProps {
   protocol: string;
   pool: string;
-  apy: number;
+  apy: string;
   tvl: string;
   risk: "Low" | "Medium" | "High";
   logo: string;
   chain: string;
+  lastUpdate?: string;
+  source?: string;
 }
 
 const YieldCard = ({ protocol, pool, apy, tvl, risk, logo, chain }: YieldCardProps) => {
@@ -23,9 +25,10 @@ const YieldCard = ({ protocol, pool, apy, tvl, risk, logo, chain }: YieldCardPro
     }
   };
 
-  const getAPYColor = (apy: number) => {
-    if (apy > 20) return "text-yield-high";
-    if (apy > 10) return "text-yield-medium";
+  const getAPYColor = (apy: string) => {
+    const apyNum = parseFloat(apy);
+    if (apyNum > 20) return "text-yield-high";
+    if (apyNum > 10) return "text-yield-medium";
     return "text-yield-low";
   };
 
@@ -51,7 +54,7 @@ const YieldCard = ({ protocol, pool, apy, tvl, risk, logo, chain }: YieldCardPro
           <div>
             <p className="text-sm text-muted-foreground">APY</p>
             <p className={`text-2xl font-bold ${getAPYColor(apy)}`}>
-              {apy.toFixed(2)}%
+              {apy}%
             </p>
           </div>
           <div className="text-right">
@@ -70,7 +73,9 @@ const YieldCard = ({ protocol, pool, apy, tvl, risk, logo, chain }: YieldCardPro
           </div>
           <div className="flex items-center space-x-1 text-primary">
             <TrendingUp className="h-4 w-4" />
-            <span className="text-sm">+12.3% (24h)</span>
+            <span className="text-sm">
+              {source && source !== 'fallback' ? 'Live Data' : 'Updated'}
+            </span>
           </div>
         </div>
 
