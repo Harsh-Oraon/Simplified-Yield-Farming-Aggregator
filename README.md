@@ -1,189 +1,238 @@
-# Simplified-Yield-Farming-Aggregator
+# YieldWeaver - Simplified Yield Farming Aggregator
 
-A simple dashboard that shows real-time APYs from 2–3 protocols and lets users deposit a stablecoin. Your smart contract allocates funds to the highest-yielding pool.
+A comprehensive DeFi yield farming platform that combines wallet integration with real-time APY monitoring and smart contract automation.
 
-## 🚀 Backend API
+## 🚀 Features
 
-This project includes a Node.js backend that provides:
-- Real-time APY data from various DeFi protocols
-- Blockchain interaction via ethers.js
-- RESTful API endpoints
-- CORS support for frontend integration
+### 🔗 Wallet Integration
+- **Coinbase Wallet Support**: Seamless connection with Coinbase Wallet
+- **Balance Display**: Real-time ETH balance monitoring
+- **Address Management**: Copy wallet addresses with one click
+- **Secure Connection**: Built-in security features and error handling
 
-## 📋 Prerequisites
+### 📊 Real-Time APY Dashboard
+- **Live Data**: Real-time APY rates from major DeFi protocols
+- **Multi-Protocol Support**: Aave and Compound integration
+- **The Graph Integration**: Direct data fetching from blockchain APIs
+- **Sepolia Testnet**: Safe testing environment
 
-- Node.js (v16 or higher)
-- npm or yarn
-- Access to blockchain RPC endpoints (Alchemy, Infura, etc.)
+### 🏗️ Smart Contract Infrastructure
+- **YieldAggregator Contract**: Automated yield optimization
+- **Pool Management**: Add and manage yield farming pools
+- **Risk Assessment**: Built-in risk level categorization
+- **Emergency Features**: Emergency withdrawal capabilities
 
-## 🛠️ Quick Setup
+## 🛠️ Tech Stack
 
-### Option 1: Automated Setup (Recommended)
-```bash
-# Make the setup script executable
-chmod +x setup.sh
+### Frontend
+- **React 18** with TypeScript
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **Shadcn/ui** for component library
+- **React Router** for navigation
+- **TanStack Query** for data fetching
 
-# Run the setup script
-./setup.sh
-```
+### Blockchain
+- **Solidity** smart contracts
+- **Hardhat** development environment
+- **OpenZeppelin** security libraries
+- **Ethers.js** for Ethereum interaction
 
-### Option 2: Manual Setup
-
-1. **Install Node.js** (if not already installed):
-   ```bash
-   # For Arch Linux
-   sudo pacman -S nodejs npm
-   
-   # Or download from https://nodejs.org/
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables**:
-   ```bash
-   # Copy the example environment file
-   cp env.example .env
-   
-   # Edit .env with your actual API keys and RPC URLs
-   nano .env
-   ```
-
-## 🚀 Running the Server
-
-### Development Mode (with auto-reload)
-```bash
-npm run dev
-```
-
-### Production Mode
-```bash
-npm start
-```
-
-The server will start on port 3001 (or the port specified in your `.env` file).
-
-## 📡 API Endpoints
-
-### Base URL
-```
-http://localhost:3001
-```
-
-### Available Endpoints
-
-- `GET /` - API status and information
-- `GET /health` - Health check endpoint
-- `GET /api/blockchain/status` - Current blockchain status
-- `GET /api/apy/protocols` - APY data from various protocols
-
-## 🔧 Configuration
-
-### Environment Variables
-
-Create a `.env` file based on `env.example`:
-
-```bash
-# Server Configuration
-PORT=3001
-NODE_ENV=development
-
-# Blockchain Configuration
-ETHEREUM_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_API_KEY
-POLYGON_RPC_URL=https://polygon-rpc.com
-BSC_RPC_URL=https://bsc-dataseed.binance.org
-
-# API Keys
-ALCHEMY_API_KEY=your_alchemy_api_key_here
-INFURA_API_KEY=your_infura_api_key_here
-
-# Protocol API Endpoints
-COMPOUND_API_URL=https://api.compound.finance/api/v2
-AAVE_API_URL=https://api.aave.com
-YEARN_API_URL=https://api.yearn.finance
-```
-
-### Getting API Keys
-
-1. **Alchemy**: Visit [alchemy.com](https://alchemy.com) to get a free API key
-2. **Infura**: Visit [infura.io](https://infura.io) to get a free API key
-3. **Protocol APIs**: Check each protocol's documentation for API access
+### APIs & Data
+- **The Graph Protocol** for blockchain data
+- **Aave Protocol** integration
+- **Compound Protocol** integration
 
 ## 📁 Project Structure
 
 ```
 Simplified-Yield-Farming-Aggregator/
-├── server.js              # Main server file
-├── package.json           # Dependencies and scripts
-├── env.example            # Environment variables template
-├── .gitignore            # Git ignore rules
-├── setup.sh              # Automated setup script
-└── README.md             # This file
+├── contracts/                 # Smart contracts
+│   ├── YieldAggregator.sol   # Main yield aggregator contract
+│   ├── MockUSDC.sol          # Mock USDC for testing
+│   └── scripts/
+│       └── deploy.js          # Deployment scripts
+├── frontend/                  # Main React application
+│   ├── src/
+│   │   ├── components/       # UI components
+│   │   │   ├── ui/           # Shadcn/ui components
+│   │   │   ├── Header.tsx    # Navigation header
+│   │   │   ├── Hero.tsx      # Landing page hero
+│   │   │   ├── WalletInfo.tsx # Wallet connection UI
+│   │   │   └── YieldGrid.tsx # Yield farming grid
+│   │   ├── contexts/         # React contexts
+│   │   │   └── WalletContext.tsx # Wallet state management
+│   │   ├── hooks/            # Custom React hooks
+│   │   ├── pages/            # Page components
+│   │   │   ├── Index.tsx     # Home page
+│   │   │   └── NotFound.tsx  # 404 page
+│   │   ├── APYDashboard.tsx  # Real-time APY dashboard
+│   │   └── App.tsx           # Main app component
+│   └── package.json          # Frontend dependencies
+├── services/                  # Backend services
+│   └── defiApi.js            # DeFi API integration
+├── server.js                  # Express server
+└── README.md                 # This file
 ```
 
-## 🧪 Testing the API
+## 🚀 Quick Start
 
-Once the server is running, you can test the endpoints:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Coinbase Wallet extension
+- MetaMask or other Web3 wallet
 
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd Simplified-Yield-Farming-Aggregator
+   ```
+
+2. **Install dependencies**
+   ```bash
+   # Install root dependencies
+   npm install
+   
+   # Install frontend dependencies
+   cd frontend
+   npm install
+   
+   # Install contract dependencies
+   cd ../contracts
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Start the development servers**
+   ```bash
+   # Start frontend (from root directory)
+   npm run dev:frontend
+   
+   # Start backend (from root directory)
+   npm run dev:backend
+   
+   # Or use the provided batch files on Windows
+   start-frontend.bat
+   start_backend.bat
+   ```
+
+### Smart Contract Deployment
+
+1. **Configure Hardhat**
+   ```bash
+   cd contracts
+   # Edit hardhat.config.js with your network settings
+   ```
+
+2. **Deploy contracts**
+   ```bash
+   npx hardhat compile
+   npx hardhat run scripts/deploy.js --network sepolia
+   ```
+
+## 🎯 Usage
+
+### Connecting Your Wallet
+1. Open the application in your browser
+2. Click "Connect Wallet" in the header
+3. Approve the connection in your Coinbase Wallet
+4. View your wallet information and balance
+
+### Viewing APY Dashboard
+1. Navigate to the APY Dashboard from the header
+2. View real-time APY rates from Aave and Compound
+3. Monitor protocol performance and trends
+
+### Yield Farming (Coming Soon)
+1. Connect your wallet
+2. Select a yield farming pool
+3. Deposit your stablecoins
+4. Monitor your earnings in real-time
+
+## 🔧 Development
+
+### Frontend Development
 ```bash
-# Test the base endpoint
-curl http://localhost:3001/
-
-# Test health check
-curl http://localhost:3001/health
-
-# Test blockchain status
-curl http://localhost:3001/api/blockchain/status
-
-# Test APY data
-curl http://localhost:3001/api/apy/protocols
+cd frontend
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run lint         # Run ESLint
 ```
 
-## 🔮 Next Steps
-
-- [ ] Implement real protocol API integrations
-- [ ] Add database for storing historical APY data
-- [ ] Create smart contract integration
-- [ ] Add authentication and user management
-- [ ] Implement rate limiting and caching
-- [ ] Add comprehensive error handling
-- [ ] Create frontend dashboard
-
-## 🐛 Troubleshooting
-
-### Port Already in Use
-If port 3001 is already in use, change the `PORT` in your `.env` file.
-
-### Blockchain Connection Issues
-- Verify your RPC URL is correct
-- Check if you have sufficient API quota
-- Ensure your network allows the connection
-
-### Missing Dependencies
-If you encounter module not found errors:
+### Smart Contract Development
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+cd contracts
+npx hardhat compile  # Compile contracts
+npx hardhat test     # Run tests
+npx hardhat node     # Start local node
 ```
 
-## 📄 License
+### Adding New Protocols
+1. Update the APY dashboard with new Graph queries
+2. Add protocol-specific components
+3. Update the smart contract with new pool addresses
+4. Test thoroughly on testnet
 
-MIT License - see LICENSE file for details.
+## 🔒 Security Features
+
+- **Reentrancy Protection**: Built-in guards against reentrancy attacks
+- **Access Control**: Owner-only functions for critical operations
+- **Emergency Withdrawal**: Quick exit mechanism for users
+- **Input Validation**: Comprehensive parameter checking
+- **Safe Math**: Overflow protection for all calculations
+
+## 🌐 Networks Supported
+
+- **Sepolia Testnet**: Primary development and testing network
+- **Ethereum Mainnet**: Production deployment (configured but not deployed)
+
+## 📊 API Endpoints
+
+### The Graph Queries
+- **Aave Protocol**: `https://api.thegraph.com/subgraphs/name/aave/protocol-v3-sepolia`
+- **Compound Protocol**: `https://api.thegraph.com/subgraphs/name/messari/compound-v3-sepolia`
+
+### Custom API Endpoints
+- `/api/apy` - Get aggregated APY data
+- `/api/pools` - Get available yield farming pools
+- `/api/user/:address` - Get user-specific data
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📞 Support
+## 📝 License
 
-If you encounter any issues:
-1. Check the troubleshooting section above
-2. Review the error logs in your terminal
-3. Ensure all environment variables are properly set
-4. Verify Node.js version compatibility
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Documentation**: Check the `SMART_CONTRACTS_OVERVIEW.md` for detailed contract documentation
+- **Issues**: Report bugs and feature requests via GitHub Issues
+- **Discussions**: Join community discussions in GitHub Discussions
+
+## 🔮 Roadmap
+
+- [ ] Multi-chain support (Polygon, BSC)
+- [ ] Advanced yield optimization algorithms
+- [ ] Mobile app development
+- [ ] Governance token implementation
+- [ ] Cross-protocol yield farming strategies
+- [ ] Real-time notifications
+- [ ] Portfolio analytics dashboard
+
+---
+
+**Built with ❤️ for the DeFi community**

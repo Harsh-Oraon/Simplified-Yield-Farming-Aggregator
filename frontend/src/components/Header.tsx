@@ -1,33 +1,88 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Wallet, Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { BarChart3, Wallet } from "lucide-react";
+import { useWalletContext } from "../contexts/WalletContext";
 
 const Header = () => {
-  return (
-    <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
-              <span className="text-sm font-bold text-primary-foreground">Y</span>
-            </div>
-            <span className="text-xl font-bold text-foreground">YieldMax</span>
-          </div>
-        </div>
+  const { isConnected, connect, disconnect, error, isConnecting } = useWalletContext();
 
-        <div className="flex items-center space-x-4">
-          <div className="relative hidden md:block">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search protocols..."
-              className="pl-10 w-64 bg-muted/50 border-border"
-            />
+  const handleWalletAction = async () => {
+    try {
+      console.log('Header wallet button clicked, isConnected:', isConnected);
+      
+      if (isConnected) {
+        console.log('Disconnecting wallet...');
+        disconnect();
+      } else {
+        console.log('Connecting wallet...');
+        const result = await connect();
+        console.log('Connect result:', result);
+      }
+    } catch (err) {
+      console.error('Header wallet action error:', err);
+    }
+  };
+
+  const handleTestClick = () => {
+    console.log('Test button clicked!');
+    alert('Header test button works!');
+  };
+
+  return (
+    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">YM</span>
+              </div>
+              <span className="text-xl font-bold">YieldMax</span>
+            </Link>
           </div>
-          
-          <Button variant="outline" size="sm">
-            <Wallet className="mr-2 h-4 w-4" />
-            Connect Wallet
-          </Button>
+
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">
+              Home
+            </Link>
+            <Link to="/dashboard" className="text-sm font-medium hover:text-primary transition-colors">
+              APY Dashboard
+            </Link>
+            
+            {/* Test Button */}
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleTestClick}
+              className="cursor-pointer bg-yellow-500 hover:bg-yellow-600"
+            >
+              Test
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleWalletAction}
+              disabled={isConnecting}
+              className="cursor-pointer"
+            >
+              <Wallet className="h-4 w-4 mr-2" />
+              {isConnecting ? 'Connecting...' : isConnected ? 'Disconnect' : 'Connect Wallet'}
+            </Button>
+            {error && (
+              <span className="text-xs text-red-500 max-w-32 truncate" title={error}>
+                {error}
+              </span>
+            )}
+          </nav>
+
+          <div className="md:hidden">
+            <Link to="/dashboard">
+              <Button variant="outline" size="sm">
+                <BarChart3 className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </header>

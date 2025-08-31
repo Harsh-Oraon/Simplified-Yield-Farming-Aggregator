@@ -1,11 +1,16 @@
 {
-  "name": "yield-farming-aggregator-backend",
+  "name": "yieldweaver-aggregator",
   "version": "1.0.0",
-  "description": "Backend for Simplified Yield Farming Aggregator",
+  "description": "YieldWeaver - Comprehensive DeFi Yield Farming Platform with Wallet Integration and Real-time APY Monitoring",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "nodemon server.js",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "install:all": "npm install && cd frontend && npm install && cd ../contracts && npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -13,7 +18,11 @@
     "defi",
     "blockchain",
     "ethers",
-    "api"
+    "api",
+    "react",
+    "typescript",
+    "smart-contracts",
+    "wallet-integration"
   ],
   "author": "",
   "license": "MIT",
@@ -25,9 +34,10 @@
     "cors": "^2.8.5"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.2"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }
